@@ -1,0 +1,344 @@
+@import url('https://fonts.googleapis.com/css?family=Pacifico');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --cell-size: 100px;
+    --mark-size: calc(var(--cell-size) * .9);
+    --clr-theme: #41194b;
+    --main-font: 'Pacifico', serif;
+
+}
+
+body{
+    background-image: none;
+}
+
+body {
+    margin: 0;
+}
+
+.board {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: repeat(3, auto);
+
+}
+
+.cell-circle-ex,
+.cell-x-ex,
+.cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.cell-circle-ex,
+.cell-x-ex {
+    border: none;
+}
+
+.cell:first-child,
+.cell:nth-child(2),
+.cell:nth-child(3) {
+    border-top: none;
+}
+
+.cell:nth-child(3n+1) {
+    border-left: none;
+}
+
+.cell:nth-child(3n+3) {
+    border-right: none;
+}
+
+.cell:last-child,
+.cell:nth-child(8),
+.cell:nth-child(7) {
+    border-bottom: none;
+}
+
+.cell.x,
+.cell.circle {
+    cursor: not-allowed;
+}
+
+.cell-x-ex::before,
+.cell-x-ex::after,
+.cell-circle-ex::before,
+.cell-circle-ex::after,
+.cell.x::before,
+.cell.x::after,
+.cell.circle::before,
+.cell.circle::after {
+    background-color: black;
+}
+
+
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.x .cell:not(.x):not(.circle):hover::after,
+.board.circle .cell:not(.x):not(.circle):hover::before,
+.board.circle .cell:not(.x):not(.circle):hover::after {
+    background-color: lightgray;
+
+}
+
+.cell-x-ex::before,
+.cell-x-ex::after,
+.cell.x::before,
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.x .cell:not(.x):not(.circle):hover::after {
+    content: "";
+    width: calc(var(--mark-size) * .15);
+    height: var(--mark-size);
+
+    position: absolute;
+
+}
+
+.cell-x-ex::before,
+.cell.x::before,
+.board.x .cell:not(.x):not(.circle):hover::before {
+    transform: rotate(45deg);
+}
+
+.cell-x-ex::after,
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::after {
+    transform: rotate(-45deg);
+}
+
+
+.cell-circle-ex::before,
+.cell-circle-ex::after,
+.cell.circle::before,
+.cell.circle::after,
+.board.circle .cell:not(.x):not(.circle):hover::before,
+.board.circle .cell:not(.x):not(.circle):hover::after {
+    content: "";
+    border-radius: 50%;
+    position: absolute;
+
+}
+
+
+.cell-circle-ex::before,
+.cell.circle::before,
+.board.circle .cell:not(.x):not(.circle):hover::before {
+    width: var(--mark-size);
+    height: var(--mark-size);
+
+}
+
+.cell-circle-ex::after,
+.cell.circle::after,
+.board.circle .cell:not(.x):not(.circle):hover::after {
+    width: calc(var(--mark-size) * .7);
+    height: calc(var(--mark-size) * .7);
+    background-color: white;
+}
+
+.cell.x.won{
+    background-color: green;
+}
+.cell.circle.won,
+.cell.circle.won::after{
+    background-color: blue;
+}
+
+.cell.circle.won::after{
+    background-color: blue;
+}
+.cell-circle-ex::after {
+    background-color: burlywood;
+}
+
+
+.winning-message {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .9);
+    justify-content: start;
+    align-items: center;
+    color: white;
+    font-size: 5rem;
+    flex-direction: column;
+    z-index: 0;
+}
+
+.start-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: burlywood;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    font-family: var(--main-font);
+}
+
+.choose-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: .5rem;
+}
+
+.check-start-first{
+    align-self: center;
+    justify-self: start;
+    width: 30px;
+    height: 30px;
+}
+
+
+.radio-choise {
+    display: none;
+}
+
+
+.radio-choise:checked + label {
+    border-radius: .5em;
+}
+
+
+.radio-choise:checked + label,
+.radio-choise:checked + label.cell-circle-ex::after {
+    background-color: var(--clr-theme);
+}
+
+.choose-mode-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: right;
+    align-content: center;
+}
+.choose-mode-container p{
+    margin: 0 2rem auto auto;
+}
+
+.mode-selector{
+    margin-right: 2rem;
+    overflow: hidden;
+    padding: .25rem;
+    font-family: var(--main-font);
+}
+
+.mode-selector option:active{
+    background-color: #4C212A;
+}
+
+
+.start-menu h1 {
+
+    text-align: center;
+    font-family: var(--main-font);
+    font-size: 4.5rem;
+}
+
+.start-menu p {
+    font-size: 1.3rem;
+}
+
+.start-menu button {
+    cursor: pointer;
+    padding: 0.5em;
+    margin-top: 0.5em;
+    align-self: center;
+    justify-self: center;
+    border-radius: 2em;
+    background-color: var(--clr-theme);
+    color: white;
+    font-family: var(--main-font);
+    font-size: 1.3rem;
+
+}
+.start-menu button:hover,
+.start-menu button:focus{
+    background-color: white;
+    color: var(--clr-theme);
+
+}
+
+.winning-message button {
+    font-size: 3rem;
+    background-color: white;
+    border: 1px solid black;
+    padding: .25em .5em;
+    cursor: pointer;
+}
+
+.winning-message button:hover {
+    background-color: black;
+    border-color: white;
+    color: white;
+}
+
+.winning-message.show {
+    display: flex;
+}
+
+footer {
+    position: fixed;
+    z-index: +2;
+    bottom: 0;
+    height: 10vh;
+    padding: 0;
+
+}
+
+
+.note-container p {
+    text-align: justify;
+    margin: 0.75rem;
+}
+p strong{
+    text-decoration: underline;
+}
+
+@media only screen and (min-width: 768px){
+    .start-menu{
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+    }
+    .choose-mode-container {
+        grid-column-start: 3;
+    }
+
+    .start-menu h1 {
+        grid-column: 1/4;
+    }
+
+    .start-menu button {
+        grid-column-start: 2;
+        grid-row-start: 3;
+        height: 50%;
+        width: 50%;
+        font-size: 2em;
+    }
+    .note-container{
+        grid-column-start: 3;
+        grid-row-start: 3;
+    }
+}
+
